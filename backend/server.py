@@ -31,11 +31,14 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+from services.recipe_recommendation import RecipeRecommendationService
+
 # Initialize services
 auth_service = AuthService(db)
 nutrition_service = NutritionService(db)
 exercise_service = ExerciseService(db)
 meal_planning_service = MealPlanningService(db)
+recipe_recommendation_service = RecipeRecommendationService(db)
 
 # Create the main app without a prefix
 app = FastAPI(title="FitFocus API", description="Comprehensive fitness tracking API")
