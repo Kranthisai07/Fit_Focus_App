@@ -116,7 +116,7 @@ class NutritionService:
             food_name=food.name,
             quantity_grams=food_log.quantity_grams,
             meal_type=food_log.meal_type,
-            date=date.today(),
+            date=date.today().isoformat(),
             calories=food.nutrition.calories_per_100g * multiplier,
             protein=food.nutrition.protein_per_100g * multiplier,
             carbs=food.nutrition.carbs_per_100g * multiplier,
