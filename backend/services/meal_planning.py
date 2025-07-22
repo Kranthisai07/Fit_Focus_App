@@ -153,7 +153,7 @@ class MealPlanningService:
         await self.meal_plans_collection.insert_one(meal_plan.dict())
         return meal_plan
     
-    async def get_user_meal_plan(self, user_id: str, week_start: date) -> Optional[MealPlan]:
+    async def get_user_meal_plan(self, user_id: str, week_start: str) -> Optional[MealPlan]:
         """Get user's meal plan for a specific week"""
         meal_plan_data = await self.meal_plans_collection.find_one({
             "user_id": user_id,
