@@ -34,7 +34,7 @@ class FoodLogEntry(BaseModel):
     food_name: str  # Store for quick access
     quantity_grams: float
     meal_type: str  # breakfast, lunch, dinner, snack
-    date: date
+    date: str  # Store as ISO string instead of date object
     calories: float
     protein: float
     carbs: float
