@@ -1,8 +1,11 @@
+import sys
+sys.path.append('/app/backend')
+
 from typing import List, Optional, Dict
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import date, datetime, timedelta
 import random
-from ..models.meal_planning import Recipe, RecipeCreate, MealPlan, MealPlanCreate, GroceryList
+from models.meal_planning import Recipe, RecipeCreate, MealPlan, MealPlanCreate, GroceryList
 
 class MealPlanningService:
     def __init__(self, db: AsyncIOMotorClient):
