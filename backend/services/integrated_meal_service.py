@@ -95,7 +95,7 @@ class IntegratedMealService:
                     )
                     
                     # Save to AI recommendations collection
-                    recipe_id = await self.save_ai_recommendation(user.id, recommendation)
+                    recipe_id = await self.save_ai_recommendation(user.id, recommendation, meal_type)
                     weekly_recipes[day][meal_type] = recipe_id
                     
                     # Small delay to avoid rate limiting
