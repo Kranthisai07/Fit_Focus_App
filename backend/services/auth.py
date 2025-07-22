@@ -1,5 +1,6 @@
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorClient
+from datetime import datetime
 import os
 from ..models.user import UserProfile, UserCreate, UserUpdate
 
