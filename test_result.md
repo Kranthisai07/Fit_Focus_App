@@ -214,17 +214,17 @@
         agent: "main"
         comment: "Full exercise tracking with tutorial library, custom workout timer, exercise history and stats"
 
-  - task: "Navigation Component"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/Navigation.js"
+  - task: "Backend API Integration"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/services/api.js"
     stuck_count: 0
-    priority: "medium"
+    priority: "high"
     needs_retesting: false
     status_history:
-      - working: true
+      - working: "NA"
         agent: "main"
-        comment: "Responsive navigation working on both desktop and mobile with proper route highlighting"
+        comment: "Need to create API service integration to replace mock data with real backend calls"
 
 ## metadata:
   created_by: "main_agent"
