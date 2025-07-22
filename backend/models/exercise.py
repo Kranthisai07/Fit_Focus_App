@@ -49,6 +49,6 @@ class ExerciseSession(BaseModel):
     exercise_name: str
     duration_seconds: int
     calories_burned: float
-    date: date
+    date: str  # Store as ISO string
     workout_log_id: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
