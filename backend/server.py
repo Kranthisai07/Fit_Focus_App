@@ -307,29 +307,79 @@ async def save_recommendation_to_meal_plan(
 ):
     """Save a recommended recipe to user's meal plan"""
     try:
-        # Convert recommendation to recipe format
-        recipe_data = {
-            "name": recommendation_data.get("title"),
-            "description": recommendation_data.get("recipe"),
-            "ingredients": recommendation_data.get("ingredients", []),
-            "instructions": recommendation_data.get("instructions", []),
-            "prep_time_minutes": int(recommendation_data.get("estimated_time", {}).get("prep", "15 minutes").split()[0]),
-            "cook_time_minutes": int(recommendation_data.get("estimated_time", {}).get("cook", "20 minutes").split()[0]),
-            "servings": recommendation_data.get("servings", 1),
-            "difficulty": recommendation_data.get("difficulty", "simple"),
-            "dietary_tags": recommendation_data.get("tags", []),
-            "nutrition_per_serving": recommendation_data.get("nutrition_per_serving", {})
-        }
+        # Save AI recommendation to integrated system
+        recipe_id = await integrated_meal_service.save_ai_recommendation(user_id, recommendation_data)
         
-        # Create and save recipe
-        from models.meal_planning import Recipe
-        recipe = Recipe(**recipe_data)
-        await meal_planning_service.recipes_collection.insert_one(recipe.dict())
-        
-        return {"message": "Recipe saved successfully", "recipe_id": recipe.id}
+        return {"message": "Recipe saved successfully", "recipe_id": recipe_id}
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save recipe: {str(e)}")
+
+# INTEGRATED MEAL PLANNING ENDPOINTS
+@api_router.post("/meal-plans/ai/{user_id}/weekly")
+async def create_weekly_ai_meal_plan(user_id: str, week_start: str):
+    """Create AI-generated weekly meal plan"""
+    user = await auth_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    try:
+        meal_plan = await integrated_meal_service.create_weekly_ai_meal_plan(user, week_start)
+        return meal_plan
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create meal plan: {str(e)}")
+
+@api_router.get("/meal-plans/ai/{user_id}/weekly/{week_start}")
+async def get_weekly_ai_meal_plan(user_id: str, week_start: str):
+    """Get AI-generated weekly meal plan"""
+    try:
+        meal_plan = await integrated_meal_service.get_weekly_meal_plan(user_id, week_start)
+        if not meal_plan:
+            raise HTTPException(status_code=404, detail="Meal plan not found")
+        return meal_plan
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get meal plan: {str(e)}")
+
+@api_router.get("/meal-plans/ai/{user_id}/daily/{date}")
+async def get_daily_ai_meal_plan(user_id: str, date: str):
+    """Get daily AI meal plan"""
+    try:
+        daily_plan = await integrated_meal_service.get_daily_meal_plan(user_id, date)
+        return daily_plan
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get daily plan: {str(e)}")
+
+@api_router.put("/meal-plans/ai/{user_id}/daily/{date}/{meal_type}/completion")
+async def update_meal_completion(
+    user_id: str, 
+    date: str, 
+    meal_type: str, 
+    completion_data: dict
+):
+    """Update meal completion status"""
+    try:
+        await integrated_meal_service.update_meal_completion(user_id, date, meal_type, completion_data)
+        return {"message": "Meal completion updated successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update completion: {str(e)}")
+
+@api_router.get("/meal-plans/ai/{user_id}/summary/{week_start}")
+async def get_weekly_summary(user_id: str, week_start: str):
+    """Get weekly progress summary"""
+    try:
+        summary = await integrated_meal_service.generate_weekly_summary(user_id, week_start)
+        return summary
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get summary: {str(e)}")
+
+@api_router.get("/recommendations/{user_id}/ai-recipes")
+async def get_user_ai_recipes(user_id: str, meal_type: Optional[str] = None, limit: int = 10):
+    """Get user's AI recipe recommendations"""
+    try:
+        recommendations = await integrated_meal_service.get_user_ai_recommendations(user_id, meal_type, limit)
+        return {"recommendations": recommendations}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get recommendations: {str(e)}")
 
 # Status endpoints (keeping for compatibility)
 @api_router.post("/status", response_model=StatusCheck)
