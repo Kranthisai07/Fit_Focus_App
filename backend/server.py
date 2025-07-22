@@ -256,6 +256,79 @@ async def create_grocery_list(user_id: str, meal_plan_id: str):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# AI RECIPE RECOMMENDATION ENDPOINTS
+@api_router.post("/recommendations/{user_id}/generate")
+async def generate_recipe_recommendation(user_id: str, meal_type: str = "dinner"):
+    """Generate AI-powered personalized recipe recommendation"""
+    user = await auth_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    try:
+        recommendation = await recipe_recommendation_service.get_personalized_recommendation(
+            user, meal_type, force_regenerate=True
+        )
+        return recommendation
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate recommendation: {str(e)}")
+
+@api_router.get("/recommendations/{user_id}/multiple")
+async def get_multiple_recommendations(user_id: str, count: int = 3):
+    """Get multiple recipe recommendations for meal planning"""
+    user = await auth_service.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    try:
+        recommendations = await recipe_recommendation_service.get_multiple_recommendations(
+            user, count
+        )
+        return {"recommendations": recommendations, "count": len(recommendations)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate recommendations: {str(e)}")
+
+@api_router.get("/recommendations/{user_id}/history")
+async def get_recommendation_history(user_id: str, limit: int = 10):
+    """Get user's recommendation history"""
+    try:
+        history = await recipe_recommendation_service.get_recommendation_history(user_id, limit)
+        return {"history": history}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get history: {str(e)}")
+
+@api_router.post("/recommendations/{user_id}/save-to-meal-plan")
+async def save_recommendation_to_meal_plan(
+    user_id: str, 
+    recommendation_data: dict,
+    meal_type: str = "dinner",
+    date: str = None
+):
+    """Save a recommended recipe to user's meal plan"""
+    try:
+        # Convert recommendation to recipe format
+        recipe_data = {
+            "name": recommendation_data.get("title"),
+            "description": recommendation_data.get("recipe"),
+            "ingredients": recommendation_data.get("ingredients", []),
+            "instructions": recommendation_data.get("instructions", []),
+            "prep_time_minutes": int(recommendation_data.get("estimated_time", {}).get("prep", "15 minutes").split()[0]),
+            "cook_time_minutes": int(recommendation_data.get("estimated_time", {}).get("cook", "20 minutes").split()[0]),
+            "servings": recommendation_data.get("servings", 1),
+            "difficulty": recommendation_data.get("difficulty", "simple"),
+            "dietary_tags": recommendation_data.get("tags", []),
+            "nutrition_per_serving": recommendation_data.get("nutrition_per_serving", {})
+        }
+        
+        # Create and save recipe
+        from models.meal_planning import Recipe
+        recipe = Recipe(**recipe_data)
+        await meal_planning_service.recipes_collection.insert_one(recipe.dict())
+        
+        return {"message": "Recipe saved successfully", "recipe_id": recipe.id}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save recipe: {str(e)}")
+
 # Status endpoints (keeping for compatibility)
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
