@@ -32,7 +32,7 @@ class GroceryList(BaseModel):
     user_id: str
     meal_plan_id: str
     items: List[Dict]  # [{"food_name": "...", "quantity": "...", "category": "produce", "checked": false}]
-    week_start_date: date
+    week_start_date: str  # Store as ISO string
     stores: List[Dict]  # [{"store": "Walmart", "items": [...]}]
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
