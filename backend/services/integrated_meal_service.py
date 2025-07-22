@@ -34,16 +34,20 @@ class IntegratedMealService:
         # Initialize recipe recommendation service
         self.recipe_service = RecipeRecommendationService(db)
     
-    async def save_ai_recommendation(self, user_id: str, recommendation: Dict[str, Any]) -> str:
+    async def save_ai_recommendation(self, user_id: str, recommendation: Dict[str, Any], meal_type: str = "dinner") -> str:
         """Save AI recommendation to database"""
         try:
+            # Ensure meal_type is included
+            recommendation_data = recommendation.copy()
+            recommendation_data["meal_type"] = meal_type
+            
             ai_recipe = AIRecipeRecommendation(
                 user_id=user_id,
-                **recommendation
+                **recommendation_data
             )
             
             result = await self.ai_recipes_collection.insert_one(ai_recipe.dict())
-            return str(result.inserted_id)
+            return ai_recipe.id  # Return the recipe ID, not the MongoDB ObjectId
             
         except Exception as e:
             logger.error(f"Error saving AI recommendation: {str(e)}")
