@@ -219,8 +219,8 @@ async def create_meal_plan(user_id: str, meal_plan_data: MealPlanCreate):
 async def get_weekly_meal_plan(user_id: str, week_start: str):
     """Get user's meal plan for a specific week"""
     try:
-        start_date = date.fromisoformat(week_start)
-        meal_plan = await meal_planning_service.get_user_meal_plan(user_id, start_date)
+        start_date_str = week_start
+        meal_plan = await meal_planning_service.get_user_meal_plan(user_id, start_date_str)
         if not meal_plan:
             raise HTTPException(status_code=404, detail="Meal plan not found")
         
