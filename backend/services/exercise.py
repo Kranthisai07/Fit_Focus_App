@@ -1,7 +1,10 @@
+import sys
+sys.path.append('/app/backend')
+
 from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import date, datetime
-from ..models.exercise import Exercise, WorkoutTemplate, WorkoutLog, WorkoutLogCreate, ExerciseSession
+from models.exercise import Exercise, WorkoutTemplate, WorkoutLog, WorkoutLogCreate, ExerciseSession
 
 class ExerciseService:
     def __init__(self, db: AsyncIOMotorClient):
