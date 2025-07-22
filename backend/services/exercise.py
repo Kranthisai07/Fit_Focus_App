@@ -153,7 +153,7 @@ class ExerciseService:
     
     async def get_user_stats(self, user_id: str, days: int = 7) -> dict:
         """Get user's exercise stats for the past N days"""
-        start_date = date.today() - datetime.timedelta(days=days)
+        start_date = date.today() - timedelta(days=days)
         
         cursor = self.workout_logs_collection.find({
             "user_id": user_id,
