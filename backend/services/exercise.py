@@ -157,7 +157,7 @@ class ExerciseService:
         
         cursor = self.workout_logs_collection.find({
             "user_id": user_id,
-            "date": {"$gte": start_date}
+            "date": {"$gte": start_date.isoformat()}
         })
         
         total_workouts = 0
