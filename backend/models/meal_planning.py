@@ -22,7 +22,7 @@ class Recipe(BaseModel):
 class MealPlan(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
-    week_start_date: date
+    week_start_date: str  # Store as ISO string
     meals: Dict[str, Dict[str, str]]  # {"monday": {"breakfast": "recipe_id", "lunch": "recipe_id"}}
     generated_by_ai: bool = False
     created_at: datetime = Field(default_factory=datetime.utcnow)
