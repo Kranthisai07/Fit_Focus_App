@@ -159,4 +159,41 @@ export const recommendationAPI = {
   }
 };
 
+// Integrated AI Meal Planning
+export const integratedMealAPI = {
+  createWeeklyAIMealPlan: async (userId, weekStart) => {
+    const response = await api.post(`/meal-plans/ai/${userId}/weekly`, null, {
+      params: { week_start: weekStart }
+    });
+    return response.data;
+  },
+  
+  getWeeklyAIMealPlan: async (userId, weekStart) => {
+    const response = await api.get(`/meal-plans/ai/${userId}/weekly/${weekStart}`);
+    return response.data;
+  },
+  
+  getDailyAIMealPlan: async (userId, date) => {
+    const response = await api.get(`/meal-plans/ai/${userId}/daily/${date}`);
+    return response.data;
+  },
+  
+  updateMealCompletion: async (userId, date, mealType, completionData) => {
+    const response = await api.put(`/meal-plans/ai/${userId}/daily/${date}/${mealType}/completion`, completionData);
+    return response.data;
+  },
+  
+  getWeeklySummary: async (userId, weekStart) => {
+    const response = await api.get(`/meal-plans/ai/${userId}/summary/${weekStart}`);
+    return response.data;
+  },
+  
+  getUserAIRecipes: async (userId, mealType = null, limit = 10) => {
+    const response = await api.get(`/recommendations/${userId}/ai-recipes`, {
+      params: { meal_type: mealType, limit }
+    });
+    return response.data;
+  }
+};
+
 export default api;
