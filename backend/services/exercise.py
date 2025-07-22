@@ -3,7 +3,7 @@ sys.path.append('/app/backend')
 
 from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from models.exercise import Exercise, WorkoutTemplate, WorkoutLog, WorkoutLogCreate, ExerciseSession
 
 class ExerciseService:
