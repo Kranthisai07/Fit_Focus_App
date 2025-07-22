@@ -49,5 +49,5 @@ class RecipeCreate(BaseModel):
     dietary_tags: List[str] = []
 
 class MealPlanCreate(BaseModel):
-    week_start_date: date
+    week_start_date: str  # Accept as ISO string
     preferences: Optional[Dict] = None  # dietary restrictions, favorite cuisines, etc.
