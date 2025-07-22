@@ -1,8 +1,11 @@
+import sys
+sys.path.append('/app/backend')
+
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 import os
-from ..models.user import UserProfile, UserCreate, UserUpdate
+from models.user import UserProfile, UserCreate, UserUpdate
 
 class AuthService:
     def __init__(self, db: AsyncIOMotorClient):
