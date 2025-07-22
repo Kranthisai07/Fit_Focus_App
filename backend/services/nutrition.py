@@ -133,7 +133,7 @@ class NutritionService:
         
         cursor = self.food_logs_collection.find({
             "user_id": user_id,
-            "date": target_date
+            "date": target_date.isoformat()
         })
         
         total_calories = 0
