@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from datetime import datetime, date
+from datetime import date, datetime, timedelta
 import uuid
 
 class NutritionInfo(BaseModel):
