@@ -308,7 +308,7 @@ async def save_recommendation_to_meal_plan(
     """Save a recommended recipe to user's meal plan"""
     try:
         # Save AI recommendation to integrated system
-        recipe_id = await integrated_meal_service.save_ai_recommendation(user_id, recommendation_data)
+        recipe_id = await integrated_meal_service.save_ai_recommendation(user_id, recommendation_data, meal_type)
         
         return {"message": "Recipe saved successfully", "recipe_id": recipe_id}
         
