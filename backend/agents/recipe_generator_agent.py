@@ -30,7 +30,7 @@ class RecipeGeneratorAgent:
             api_key=self.api_key,
             session_id="recipe_generator",
             system_message="You are a professional nutritionist and chef AI assistant specialized in creating personalized, healthy, and delicious recipes."
-        ).with_model("gemini", "gemini-2.5-flash-preview-04-17").with_max_tokens(4096)
+        ).with_model("gemini", "gemini-2.0-flash").with_max_tokens(4096)
     
     async def generate_recipe(self, recommendation_prompt: str) -> Dict[str, Any]:
         """
