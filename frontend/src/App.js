@@ -7,6 +7,7 @@ import Dashboard from "./components/DashboardNew";
 import Daily from "./components/Daily";
 import Weekly from "./components/Weekly";
 import Exercise from "./components/Exercise";
+import AIRecipeRecommendations from "./components/AIRecipeRecommendations";
 import Navigation from "./components/Navigation";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/daily" element={<Daily />} />
                 <Route path="/weekly" element={<Weekly />} />
                 <Route path="/exercise" element={<Exercise />} />
+                <Route path="/ai-recipes" element={<AIRecipeRecommendations />} />
               </Routes>
             </main>
           </div>
