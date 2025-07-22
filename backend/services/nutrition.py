@@ -154,7 +154,7 @@ class NutritionService:
             meals[log_entry.meal_type].append(log_entry.dict())
         
         return DayNutritionSummary(
-            date=target_date,
+            date=target_date.isoformat(),
             total_calories=total_calories,
             total_protein=total_protein,
             total_carbs=total_carbs,
