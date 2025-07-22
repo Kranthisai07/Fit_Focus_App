@@ -11,8 +11,11 @@ import uuid
 from datetime import datetime, date
 
 # Import models and services
+import sys
+sys.path.append('/app/backend')
+
 from models.user import UserProfile, UserCreate, UserUpdate
-from models.nutrition import Food, FoodLogCreate, DayNutritionSummary
+from models.nutrition import Food, FoodLogCreate, DayNutritionSummary  
 from models.exercise import Exercise, WorkoutTemplate, WorkoutLogCreate, WorkoutLog
 from models.meal_planning import Recipe, MealPlanCreate, MealPlan, GroceryList
 from services.auth import AuthService
