@@ -31,7 +31,7 @@ class WorkoutLog(BaseModel):
     exercises: List[Dict]  # logged exercise data
     duration_minutes: int
     calories_burned: float
-    date: date
+    date: str  # Store as ISO string
     completed: bool = True
     notes: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
