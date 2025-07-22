@@ -47,7 +47,7 @@ class FoodLogCreate(BaseModel):
     meal_type: str
 
 class DayNutritionSummary(BaseModel):
-    date: date
+    date: str  # Store as ISO string
     total_calories: float
     total_protein: float
     total_carbs: float
