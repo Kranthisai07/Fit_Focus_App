@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Calendar, CalendarDays, Dumbbell } from "lucide-react";
+import { Home, Calendar, CalendarDays, Dumbbell, Sparkles } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -9,7 +9,8 @@ const Navigation = () => {
     { path: "/", label: "FitFocus", icon: Home },
     { path: "/daily", label: "Daily", icon: Calendar },
     { path: "/weekly", label: "Weekly", icon: CalendarDays },
-    { path: "/exercise", label: "Exercise", icon: Dumbbell }
+    { path: "/exercise", label: "Exercise", icon: Dumbbell },
+    { path: "/ai-recipes", label: "AI Recipes", icon: Sparkles }
   ];
   
   return (
