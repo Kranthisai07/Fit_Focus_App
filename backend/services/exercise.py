@@ -133,7 +133,7 @@ class ExerciseService:
             exercises=workout_data.exercises,
             duration_minutes=workout_data.duration_minutes,
             calories_burned=calories_burned,
-            date=date.today(),
+            date=date.today().isoformat(),
             notes=workout_data.notes
         )
         
