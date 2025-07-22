@@ -128,4 +128,35 @@ export const mealPlanningAPI = {
   }
 };
 
+// AI Recipe Recommendations
+export const recommendationAPI = {
+  generateRecommendation: async (userId, mealType = 'dinner') => {
+    const response = await api.post(`/recommendations/${userId}/generate`, null, {
+      params: { meal_type: mealType }
+    });
+    return response.data;
+  },
+  
+  getMultipleRecommendations: async (userId, count = 3) => {
+    const response = await api.get(`/recommendations/${userId}/multiple`, {
+      params: { count }
+    });
+    return response.data;
+  },
+  
+  getRecommendationHistory: async (userId, limit = 10) => {
+    const response = await api.get(`/recommendations/${userId}/history`, {
+      params: { limit }
+    });
+    return response.data;
+  },
+  
+  saveToMealPlan: async (userId, recommendationData, mealType = 'dinner', date = null) => {
+    const response = await api.post(`/recommendations/${userId}/save-to-meal-plan`, recommendationData, {
+      params: { meal_type: mealType, date }
+    });
+    return response.data;
+  }
+};
+
 export default api;
