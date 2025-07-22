@@ -1,7 +1,10 @@
+import sys
+sys.path.append('/app/backend')
+
 from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import date, datetime
-from ..models.nutrition import Food, FoodCreate, FoodLogEntry, FoodLogCreate, DayNutritionSummary
+from models.nutrition import Food, FoodCreate, FoodLogEntry, FoodLogCreate, DayNutritionSummary
 
 class NutritionService:
     def __init__(self, db: AsyncIOMotorClient):
